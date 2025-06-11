@@ -1,0 +1,1 @@
+git+https://github.com/fkie-cad/Codescanner.git@02262b6345dfb156ddcc822f4e84586a7c6c1a7a

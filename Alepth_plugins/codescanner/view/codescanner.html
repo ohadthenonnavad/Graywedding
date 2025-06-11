@@ -1,0 +1,139 @@
+{% extends "analysis_plugins/general_information.html" %}
+
+
+{% macro format_number(number) %}
+    {{ number | nice_number }} ({{ number | hex }})
+{% endmacro %}
+
+
+{% block analysis_result_details %}
+    <script>
+        function show_byte_plot() {
+            load_map("byte_plot");
+        };
+        function show_color_map() {
+            load_map("color_map");
+        };
+        function show_coma_plot() {
+            load_map("coma_plot");
+        };
+        function load_map(type) {
+            $.ajax({
+                url: `/plugins/codescanner/${type}/{{ uid }}`,
+                type: "GET",
+                success: (data) => {
+                    document.getElementById(`${type}_cell`).innerHTML = data;
+                }
+            });
+        };
+    </script>
+    <style>
+        .no-border th {
+            border: 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .no-border td {
+            border: 0;
+        }
+    </style>
+
+    {% for key, value in analysis_result.architecture.items() %}
+        <tr>
+            <td>{{ key }}</td>
+            <td>{{ value }}</td>
+        </tr>
+    {% endfor %}
+        <tr>
+            <td>File Size</td>
+            <td>{{ format_number(analysis_result.file_size) }}</td>
+        </tr>
+    {% for key, value in analysis_result.sections.items() %}
+        <tr>
+            <td>{{ key }} Regions</td>
+            <td>
+                size: {{ format_number(value.size) }}
+                {% if value.regions %}
+                    {% set is_code_region = (value.regions[0] | length) > 2 %}
+                    <table class="table table-sm m-0 no-border" style="width: 100%">
+                        <tr>
+                            <th>Start Offset</th>
+                            <th>End Offset</th>
+                            {% if is_code_region %}
+                                <th>ISA</th>
+                                <th>Bitness</th>
+                                <th>Endianness</th>
+                            {% endif %}
+                        </tr>
+                        {% for region in value.regions -%}
+                            {% if is_code_region %}
+                                {% set start_offset, end_offset, arch, bitness, endianness = region %}
+                                <tr>
+                                    <td>{{ format_number(start_offset) }}</td>
+                                    <td>{{ format_number(end_offset) }}</td>
+                                    <td>{{ arch }}</td>
+                                    <td>{{ bitness }}</td>
+                                    <td>{{ "little" if endianness == 1 else "big" }}</td>
+                                </tr>
+                            {% else %}
+                                {% set start_offset, end_offset = region %}
+                                <tr>
+                                    <td>{{ format_number(start_offset) }}</td>
+                                    <td>{{ format_number(end_offset) }}</td>
+                                </tr>
+                            {% endif %}
+                        {%- endfor %}
+                    </table>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+
+    {# Header Comparison (COMA) #}
+    <tr>
+        <td>Header Comparison</td>
+        {% if not analysis_result.get('comparison', {}).get('header') %}
+            <td>No header information found</td>
+        {% else %}
+            <td>
+                <table class="table table-sm m-0 no-border" style="width: 100%">
+                    <tr>
+                        <th>Section</th>
+                        <th>Start Offset</th>
+                        <th>End Offset</th>
+                    </tr>
+                    {% for section, regions in analysis_result.comparison.header.items() %}
+                        {% for start_offset, end_offset in regions %}
+                            <tr>
+                                <td>{{ section }}</td>
+                                <td>{{ format_number(start_offset) }}</td>
+                                <td>{{ format_number(end_offset) }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                </table>
+            </td>
+        {% endif %}
+    </tr>
+
+    {# Plots #}
+    <tr>
+        <td>Color Map</td>
+        <td id="color_map_cell">
+            <button class="btn btn-primary btn-sm" onclick="show_color_map();">Load</button>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Byte Plot</td>
+        <td id="byte_plot_cell">
+            <button class="btn btn-primary btn-sm" onclick="show_byte_plot();">Load</button>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Header Comparison Plot</td>
+        <td id="coma_plot_cell">
+            <button class="btn btn-primary btn-sm" onclick="show_coma_plot();">Load</button>
+        </td>
+    </tr>
+{% endblock %}
