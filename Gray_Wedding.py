@@ -4,7 +4,7 @@ import hashlib
 import struct
 
 # Path to your firmware binary
-firmware_path = "FWDB/dellinspiron.bin"  # Replace with your actual path
+firmware_path = "FWDB/dell5310.bin"  # Replace with your actual path
 
 def fit_security_parser(fw_path):
     # Create the parser instance
@@ -16,6 +16,11 @@ def fit_security_parser(fw_path):
     # Parse the FIT table
     fit_result = parser.parse_fit()
     # Print results
+    
+    # Get NVRAM offset and size
+    offset, size = parser.get_nvram_region()
+    print(f"NVRAM region found at offset 0x{offset:X} with size {size} bytes")
+    
     return fit_result
 
 def verify_dxe_blob(firmware_path: str) -> bool:
@@ -24,14 +29,12 @@ def verify_dxe_blob(firmware_path: str) -> bool:
     of one or more DXE BLOB structures following RAW section headers.
     Works for now, did not reverse engineer the protocol in the end. 
     
-
     Args:
         firmware_path: Path to the firmware .bin file
 
     Returns:
         True if any hash verification succeeds, False otherwise
     """
-
     GUID_BE = bytes.fromhex('441fc9cbbca45b4a8696703451d0b053')
     RAW_SECTION_HEADER = bytes.fromhex('54000019')
 
@@ -72,7 +75,7 @@ def verify_dxe_blob(firmware_path: str) -> bool:
             if struct_offset + 40 > fw_size:
                 print(f"[-] Not enough data for full structure at {struct_offset:#x}")
                 continue
-
+        
             expected_hash = fw[struct_offset:struct_offset+32]
             region_base, region_size = struct.unpack_from('<II', fw, struct_offset + 32)
 
@@ -105,6 +108,7 @@ def verify_dxe_blob(firmware_path: str) -> bool:
 
 if __name__ == "__main__":
     ok = verify_dxe_blob(firmware_path)
+    fit_security_parser(firmware_path)
     if ok:
         print("[+] DXE BLOB verified successfully.")
     else:

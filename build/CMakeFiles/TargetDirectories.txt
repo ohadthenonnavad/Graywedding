@@ -1,0 +1,3 @@
+/Users/yalul/rnd/LiClipse/Gray_Firmware_Verification/build/CMakeFiles/uefitool.dir
+/Users/yalul/rnd/LiClipse/Gray_Firmware_Verification/build/CMakeFiles/edit_cache.dir
+/Users/yalul/rnd/LiClipse/Gray_Firmware_Verification/build/CMakeFiles/rebuild_cache.dir

@@ -8,5 +8,7 @@ PYBIND11_MODULE(uefitool, m) {
         .def(py::init<>())
         .def("load_file", &FitParserWrapper::loadFile)
         .def("parse_fit", &FitParserWrapper::parseFitTable)
-        .def("get_security_info", &FitParserWrapper::getSecurityInfo);
+        .def("get_security_info", &FitParserWrapper::getSecurityInfo)
+        .def("get_nvram_region", &FitParserWrapper::getNvramRegion);
+
 }

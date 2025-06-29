@@ -11,6 +11,8 @@ public:
     bool loadFile(const std::string &path);
     std::string parseFitTable();
     std::string getSecurityInfo();
+    std::tuple<size_t, size_t> getNvramRegion();
+
 
 private:
     void *impl; // forward-declared pointer to avoid exposing internals
