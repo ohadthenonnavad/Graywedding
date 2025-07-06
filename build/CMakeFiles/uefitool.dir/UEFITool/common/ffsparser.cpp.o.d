@@ -272,4 +272,5 @@ CMakeFiles/uefitool.dir/UEFITool/common/ffsparser.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/sstream \
   /Users/yalul/rnd/LiClipse/Gray_Firmware_Verification/UEFITool/common/kaitai/kaitaistream.h \
   /Users/yalul/rnd/LiClipse/Gray_Firmware_Verification/UEFITool/common/generated/insyde_fdm.h \
-  /Users/yalul/rnd/LiClipse/Gray_Firmware_Verification/UEFITool/common/generated/../kaitai/kaitaistruct.h
+  /Users/yalul/rnd/LiClipse/Gray_Firmware_Verification/UEFITool/common/generated/../kaitai/kaitaistruct.h \
+  /Users/yalul/rnd/LiClipse/Gray_Firmware_Verification/UEFITool/common/generated/dell_dvar.h

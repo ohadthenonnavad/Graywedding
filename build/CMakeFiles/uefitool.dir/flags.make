@@ -13,5 +13,5 @@ CXX_DEFINES = -DU_ENABLE_FIT_PARSING_SUPPORT -Duefitool_EXPORTS
 
 CXX_INCLUDES = -I/Users/yalul/rnd/LiClipse/Gray_Firmware_Verification -I/Users/yalul/rnd/LiClipse/Gray_Firmware_Verification/UEFITool/common -isystem /Library/Frameworks/Python.framework/Versions/3.8/include/python3.8
 
-CXX_FLAGS = -g -O0 -std=gnu++17 -fPIC -fvisibility=hidden
+CXX_FLAGS = -DU_ENABLE_NVRAM_PARSING_SUPPORT -g -O0 -std=gnu++17 -fPIC -fvisibility=hidden
 

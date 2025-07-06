@@ -1,0 +1,58 @@
+ UEFITool/common/nvramparser.cpp | 14 ++++++++++++++
+ UEFITool/common/nvramparser.h   |  2 +-
+ 2 files changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/UEFITool/common/nvramparser.cpp b/UEFITool/common/nvramparser.cpp
+index abcdef1..1234567 100644
+--- a/UEFITool/common/nvramparser.cpp
++++ b/UEFITool/common/nvramparser.cpp
+@@ -1,6 +1,7 @@
+ #include "nvramparser.h"
+ #include "../common/ustring.h"
+ #include "../common/ubytearray.h"
++#include <sstream>
+
+ // other includes...
+
+-USTATUS NvramParser::parseNvarStore(const UModelIndex& index)
++UString NvramParser::parseNvarStore(const UModelIndex& index)
+ {
+     const UByteArray data = model->body(index);
+     const UByteArray fullData = model->header(index) + data;
++    std::ostringstream infoStream;
+
+     if (data.size() < sizeof(NVAR_ENTRY)) {
+-        msg("parseNvarStore: NVAR store too small");
+-        return U_INVALID_FILE;
++        infoStream << "parseNvarStore: NVAR store too small\n";
++        return UString(infoStream.str().c_str());
+     }
+
+     size_t offset = 0;
+     while (offset + sizeof(NVAR_ENTRY) < data.size()) {
+         const NVAR_ENTRY* nvar = reinterpret_cast<const NVAR_ENTRY*>(data.constData() + offset);
+         // parse name/value, etc...
+         // For each variable:
+-        msg("NVAR Variable Name: %s", name.c_str());
++        infoStream << "NVAR Variable Name: " << name.c_str() << "\n";
+
+         offset += nvar->size;
+     }
+
+-    return U_SUCCESS;
++    return UString(infoStream.str().c_str());
+ }
+diff --git a/UEFITool/common/nvramparser.h b/UEFITool/common/nvramparser.h
+index 89abcd1..456789a 100644
+--- a/UEFITool/common/nvramparser.h
++++ b/UEFITool/common/nvramparser.h
+@@ -16,7 +16,7 @@ public:
+     explicit NvramParser(TreeModel* model) : model(model) {}
+
+     // changed return type to UString
+-    USTATUS parseNvarStore(const UModelIndex& index);
++    UString parseNvarStore(const UModelIndex& index);
+
+ private:
+     TreeModel* model;
+

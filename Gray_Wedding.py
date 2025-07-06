@@ -22,6 +22,11 @@ def fit_security_parser(fw_path):
     offset, size = parser.get_nvram_region()
     print(f"NVRAM region found at offset 0x{offset:X} with size {size} bytes")
     
+    nvram_vars = parser.parse_nvram_variables()
+
+    for name, attrs in nvram_vars.items():
+        print(f"{name} => {attrs}")
+        
     return fit_result
 
 BIOS_REGION_OFFSET = 0x1000000  # Adjust if your platform maps BIOS differently
@@ -150,9 +155,9 @@ def parse_nvram_variables(nvram_bytes):
         
         # Validate StartId for sanity (0x55AA or 0xFEFEFEFE or so depending on firmware)
         # Some firmwares use different start signatures, adjust as needed
-        if start_id != 0x55AA:
+        #if start_id != 0x55AA:
             # Not a valid variable header? Skip or break
-            break
+        #    break
         
         offset += EFI_VAR_HDR_SIZE
 
@@ -187,13 +192,21 @@ def parse_nvram_variables(nvram_bytes):
 
 if __name__ == "__main__":
     ok = verify_dxe_blob(firmware_path)
-    fit_security_parser(firmware_path)
     
-    nvram_bytes = extract_nvram_bytes(firmware_path)
-    print(nvram_bytes)
-    variables = parse_nvram_variables(nvram_bytes)
+    parser = uefitool.FitParser()
+    if not parser.load_file(firmware_path):
+        print(f"Failed to load firmware file: {firmware_path}")
+        
+    nvram_vars = parser.parse_nvram_variables()
+
+    for name, attrs in nvram_vars.items():
+        print(f"{name} => {attrs}")
+        
+    #fit_security_parser(firmware_path)
     
-    print(variables)
+    #nvram_bytes = extract_nvram_bytes(firmware_path)
+    #variables = parse_nvram_variables(nvram_bytes)
+    
     if ok:
         print("[+] DXE BLOB verified successfully.")
     else:

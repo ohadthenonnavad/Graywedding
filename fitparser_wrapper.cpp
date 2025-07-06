@@ -1,21 +1,4 @@
 #include "fitparser_wrapper.h"
-#include "treemodel.h"
-#include "treeitem.h"
-#include "ffsparser.h"
-#include "fitparser.h"
-#include "basetypes.h"
-#include "ubytearray.h"
-#include "ustring.h"
-
-
-#include <tuple>
-#include <string>
-#include <functional>
-
-
-#include <fstream>
-#include <sstream>
-#include <iostream>
 
 class FitParserWrapperImpl {
 public:
@@ -58,8 +41,6 @@ public:
     
 };
 
-
-
 FitParserWrapper::FitParserWrapper() {
     impl = new FitParserWrapperImpl();
 }
@@ -92,7 +73,6 @@ std::tuple<size_t, size_t> FitParserWrapper::getNvramRegion() {
         std::string guidUtf8(reinterpret_cast<const char*>(guidText.data), guidText.slen);
         std::cout << "Checking GUID: " << guidUtf8 << std::endl;
 
-
         if (guidText == targetGuid) {
             foundOffset = model->offset(index);
             foundSize = 0;
@@ -124,6 +104,50 @@ std::tuple<size_t, size_t> FitParserWrapper::getNvramRegion() {
 
     return std::make_tuple(foundOffset, foundSize);
 }
+
+
+std::map<std::string, std::string> FitParserWrapper::parseNvramVars() {
+    auto* implPtr = static_cast<FitParserWrapperImpl*>(impl);
+    TreeModel* model = &implPtr->model;
+
+    const UString targetGuid = UString("NVAR store");
+    std::map<std::string, std::string> nvramMap;
+
+    std::function<void(UModelIndex)> recurse;
+    recurse = [&](UModelIndex index) {
+        if (!index.isValid())
+            return;
+
+        UModelIndex guidIndex = model->index(index.row(), 2, index.parent());
+        UString guidText = model->text(guidIndex);
+
+        if (guidText == targetGuid) {
+            int varCount = model->rowCount(index);
+
+            for (int i = 0; i < varCount; ++i) {
+                UModelIndex idx = model->index(i, 0, index);
+                UString name = model->text(idx);
+                std::string nameStr(reinterpret_cast<const char*>(name.data), name.slen);
+
+                UString value = model->info(idx);
+                std::string valueStr(reinterpret_cast<const char*>(value.data), value.slen);
+
+                nvramMap[nameStr] = valueStr;
+            }
+            return;
+        }
+
+        int rowCount = model->rowCount(index);
+        for (int i = 0; i < rowCount; ++i) {
+            recurse(model->index(i, 0, index));
+        }
+    };
+
+    recurse(model->index(0, 0));
+    return nvramMap;
+}
+
+
 
 
 
