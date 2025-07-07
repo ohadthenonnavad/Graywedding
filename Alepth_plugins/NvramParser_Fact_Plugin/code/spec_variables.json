@@ -1,0 +1,228 @@
+[
+  {
+    "VariableName": "AuditMode",
+    "Attributes": ["BS", "RT"],
+    "Description": "Whether the system is operating in Audit Mode (1) or not (0). All other values are reserved. Should be treated as read-only except when DeployedMode is 0. Always becomes read-only after ExitBootServices() is called."
+  },
+  {
+    "VariableName": "Boot####",
+    "Attributes": ["NV", "BS", "RT"],
+    "Description": "A boot load option. #### is a printed hex value. No 0x or h is included in the hex value."
+  },
+  {
+    "VariableName": "BootCurrent",
+    "Attributes": ["BS", "RT"],
+    "Description": "The boot option that was selected for the current boot."
+  },
+  {
+    "VariableName": "BootNext",
+    "Attributes": ["NV", "BS", "RT"],
+    "Description": "The boot option for the next boot only."
+  },
+  {
+    "VariableName": "BootOrder",
+    "Attributes": ["NV", "BS", "RT"],
+    "Description": "The ordered boot option load list."
+  },
+  {
+    "VariableName": "BootOptionSupport",
+    "Attributes": ["BS", "RT"],
+    "Description": "The types of boot options supported by the boot manager. Should be treated as read-only."
+  },
+  {
+    "VariableName": "ConIn",
+    "Attributes": ["NV", "BS", "RT"],
+    "Description": "The device path of the default input console."
+  },
+  {
+    "VariableName": "ConInDev",
+    "Attributes": ["BS", "RT"],
+    "Description": "The device path of all possible console input devices."
+  },
+  {
+    "VariableName": "ConOut",
+    "Attributes": ["NV", "BS", "RT"],
+    "Description": "The device path of the default output console."
+  },
+  {
+    "VariableName": "ConOutDev",
+    "Attributes": ["BS", "RT"],
+    "Description": "The device path of all possible console output devices."
+  },
+  {
+    "VariableName": "CryptoIndications",
+    "Attributes": ["NV", "BS", "RT"],
+    "Description": "Allows the OS to request the crypto algorithm to BIOS."
+  },
+  {
+    "VariableName": "CryptoIndicationsSupported",
+    "Attributes": ["BS", "RT"],
+    "Description": "Allows the firmware to indicate supported crypto algorithm to OS."
+  },
+  {
+    "VariableName": "CryptoIndicationsActivated",
+    "Attributes": ["BS", "RT"],
+    "Description": "Allows the firmware to indicate activated crypto algorithm to OS."
+  },
+  {
+    "VariableName": "dbDefault",
+    "Attributes": ["BS", "RT"],
+    "Description": "The OEM’s default secure boot signature store. Should be treated as read-only."
+  },
+  {
+    "VariableName": "dbrDefault",
+    "Attributes": ["BS", "RT"],
+    "Description": "The OEM’s default OS Recovery signature store. Should be treated as read-only."
+  },
+  {
+    "VariableName": "dbtDefault",
+    "Attributes": ["BS", "RT"],
+    "Description": "The OEM’s default secure boot timestamp signature store. Should be treated as read-only."
+  },
+  {
+    "VariableName": "dbxDefault",
+    "Attributes": ["BS", "RT"],
+    "Description": "The OEM’s default secure boot blacklist signature store. Should be treated as read-only."
+  },
+  {
+    "VariableName": "DeployedMode",
+    "Attributes": ["BS", "RT"],
+    "Description": "Whether the system is operating in Deployed Mode (1) or not (0). All other values are reserved. Should be treated as read-only when its value is 1. Always becomes read-only after ExitBootServices() is called."
+  },
+  {
+    "VariableName": "devAuthBoot",
+    "Attributes": ["BS", "RT"],
+    "Description": "Whether the platform firmware is operating in device authentication boot mode (1) or not (0). All other values are reserved. Should be treated as read-only."
+  },
+  {
+    "VariableName": "devdbDefault",
+    "Attributes": ["BS", "RT"],
+    "Description": "The OEM’s default device authentication signature store. Should be treated as read-only."
+  },
+  {
+    "VariableName": "Driver####",
+    "Attributes": ["NV", "BS", "RT"],
+    "Description": "A driver load option. #### is a printed hex value."
+  },
+  {
+    "VariableName": "DriverOrder",
+    "Attributes": ["NV", "BS", "RT"],
+    "Description": "The ordered driver load option list."
+  },
+  {
+    "VariableName": "ErrOut",
+    "Attributes": ["NV", "BS", "RT"],
+    "Description": "The device path of the default error output device."
+  },
+  {
+    "VariableName": "ErrOutDev",
+    "Attributes": ["BS", "RT"],
+    "Description": "The device path of all possible error output devices."
+  },
+  {
+    "VariableName": "HwErrRecSupport",
+    "Attributes": ["NV", "BS", "RT"],
+    "Description": "Identifies the level of hardware error record persistence support implemented by the platform. This variable is only modified by firmware and is read-only to the OS."
+  },
+  {
+    "VariableName": "KEK",
+    "Attributes": ["NV", "BS", "RT", "AT"],
+    "Description": "The Key Exchange Key Signature Database."
+  },
+  {
+    "VariableName": "KEKDefault",
+    "Attributes": ["BS", "RT"],
+    "Description": "The OEM’s default Key Exchange Key Signature Database. Should be treated as read-only."
+  },
+  {
+    "VariableName": "Key####",
+    "Attributes": ["NV", "BS", "RT"],
+    "Description": "Describes hot key relationship with a Boot#### load option."
+  },
+  {
+    "VariableName": "Lang",
+    "Attributes": ["NV", "BS", "RT"],
+    "Description": "The language code that the system is configured for. This value is deprecated."
+  },
+  {
+    "VariableName": "LangCodes",
+    "Attributes": ["BS", "RT"],
+    "Description": "The language codes that the firmware supports. This value is deprecated."
+  },
+  {
+    "VariableName": "OsIndications",
+    "Attributes": ["NV", "BS", "RT"],
+    "Description": "Allows the OS to request the firmware to enable certain features and to take certain actions."
+  },
+  {
+    "VariableName": "OsIndicationsSupported",
+    "Attributes": ["BS", "RT"],
+    "Description": "Allows the firmware to indicate supported features and actions to the OS."
+  },
+  {
+    "VariableName": "OsRecoveryOrder",
+    "Attributes": ["BS", "RT", "NV", "AT"],
+    "Description": "OS-specified recovery options."
+  },
+  {
+    "VariableName": "PK",
+    "Attributes": ["NV", "BS", "RT", "AT"],
+    "Description": "The public Platform Key."
+  },
+  {
+    "VariableName": "PKDefault",
+    "Attributes": ["BS", "RT"],
+    "Description": "The OEM’s default public Platform Key. Should be treated as read-only."
+  },
+  {
+    "VariableName": "PlatformLangCodes",
+    "Attributes": ["BS", "RT"],
+    "Description": "The language codes that the firmware supports."
+  },
+  {
+    "VariableName": "PlatformLang",
+    "Attributes": ["NV", "BS", "RT"],
+    "Description": "The language code that the system is configured for."
+  },
+  {
+    "VariableName": "PlatformRecovery####",
+    "Attributes": ["BS", "RT"],
+    "Description": "Platform-specified recovery options. These variables are only modified by firmware and are read-only to the OS."
+  },
+  {
+    "VariableName": "SignatureSupport",
+    "Attributes": ["BS", "RT"],
+    "Description": "Array of GUIDs representing the type of signatures supported by the platform firmware. Should be treated as read-only."
+  },
+  {
+    "VariableName": "SecureBoot",
+    "Attributes": ["BS", "RT"],
+    "Description": "Whether the platform firmware is operating in Secure boot mode (1) or not (0). All other values are reserved. Should be treated as read-only."
+  },
+  {
+    "VariableName": "SetupMode",
+    "Attributes": ["BS", "RT"],
+    "Description": "Whether the system should require authentication on SetVariable() requests to Secure Boot policy variables (0) or not (1). Should be treated as read-only. The system is in 'Setup Mode' when SetupMode==1, AuditMode==0, and DeployedMode==0."
+  },
+  {
+    "VariableName": "SysPrep####",
+    "Attributes": ["NV", "BS", "RT"],
+    "Description": "A System Prep application load option containing an EFI_LOAD_OPTION descriptor. #### is a printed hex value."
+  },
+  {
+    "VariableName": "SysPrepOrder",
+    "Attributes": ["NV", "BS", "RT"],
+    "Description": "The ordered System Prep Application load option list."
+  },
+  {
+    "VariableName": "Timeout",
+    "Attributes": ["NV", "BS", "RT"],
+    "Description": "The firmware’s boot managers timeout, in seconds, before initiating the default boot selection."
+  },
+  {
+    "VariableName": "VendorKeys",
+    "Attributes": ["BS", "RT"],
+    "Description": "Whether the system is configured to use only vendor-provided keys or not. Should be treated as read-only."
+  }
+]
+
